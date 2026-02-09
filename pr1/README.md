@@ -1,6 +1,7 @@
 # Практична робота №1
 
 ## Завдання
+<img width="548" height="265" alt="Знімок екрана 2026-02-10 о 00 12 24" src="https://github.com/user-attachments/assets/19f8b5f2-5df8-4914-8abd-dc5867c246ca" />
 
 
 ## Опис
