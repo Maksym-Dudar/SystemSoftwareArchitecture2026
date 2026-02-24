@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 # Практична робота №2
 
 ## Завдання 1
@@ -207,4 +205,3 @@ gdb -p 10207 -batch -ex bt
 gcc task_var_7.c -o task_var_7
 ./task_var_7
 ```
->>>>>>> 243f961 (Update_README_Pr2_v.2)
