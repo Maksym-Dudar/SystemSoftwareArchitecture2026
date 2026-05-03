@@ -1,0 +1,56 @@
+#define _POSIX_C_SOURCE 200809L
+#include <dirent.h>
+#include <errno.h>
+#include <limits.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+
+static int walk(const char *path) {
+    DIR *dir = opendir(path);
+    if (dir == NULL) {
+        perror(path);
+        return -1;
+    }
+
+    struct dirent *entry;
+    while ((entry = readdir(dir)) != NULL) {
+        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0) {
+            continue;
+        }
+
+        char full_path[PATH_MAX];
+        if (snprintf(full_path, sizeof(full_path), "%s/%s", path, entry->d_name) >= (int)sizeof(full_path)) {
+            fprintf(stderr, "Path too long: %s/%s\n", path, entry->d_name);
+            continue;
+        }
+
+        struct stat st;
+        if (lstat(full_path, &st) != 0) {
+            perror(full_path);
+            continue;
+        }
+
+        if (S_ISDIR(st.st_mode)) {
+            if (walk(full_path) != 0) {
+                closedir(dir);
+                return -1;
+            }
+        } else {
+            printf("%s\n", full_path);
+        }
+    }
+
+    if (closedir(dir) != 0) {
+        perror("closedir");
+        return -1;
+    }
+
+    return 0;
+}
+
+int main(void) {
+    return walk(".") == 0 ? 0 : 1;
+}
