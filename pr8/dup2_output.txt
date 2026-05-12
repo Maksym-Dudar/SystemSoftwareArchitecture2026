@@ -1,0 +1,1 @@
+This line is redirected by dup2() to dup2_output.txt
